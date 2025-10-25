@@ -2,7 +2,7 @@ name: Daily Scheduled Commit
 
 on:
   schedule:
-    - cron: "55 17 * * *" 
+    - cron: "1 18 * * *" 
 
   workflow_dispatch:
 
@@ -12,7 +12,7 @@ jobs:
     
     permissions:
       contents: write
-
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
