@@ -1,0 +1,27 @@
+name: Push
+
+on:
+  schedule:
+    -cron:"55 16 * * *"
+
+  workflow-dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      -name: Add email
+        run: |
+          echo "23f2005383@ds.study.iitm.ac.in" > emails.txt
+
+      - name: commit and push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add *.txt
+          git commit -m "latest commit"
+          git push
