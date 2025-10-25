@@ -2,13 +2,14 @@ name: Push
 
 on:
   schedule:
-    - cron: "12 18 * * *"
+    - cron: "22 18 * * *"
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
