@@ -2,13 +2,16 @@ name: Push
 
 on:
   schedule:
-    -cron:"55 16 * * *"
+    - cron:"55 16 * * *"
 
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
