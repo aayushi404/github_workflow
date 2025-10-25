@@ -1,15 +1,15 @@
-name: Push
+name: Daily Scheduled Commit
 
 on:
   schedule:
-    - cron:"52 17 * * *"
+    - cron: "55 17 * * *" 
 
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     permissions:
       contents: write
 
@@ -17,14 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      -name: Add email
+      - name: Create commit file and log email: 23f2005383@ds.study.iitm.ac.in
         run: |
-          echo "23f2005383@ds.study.iitm.ac.in" > emails.txt
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "Run at $TIMESTAMP" >> scheduled_run_log.txt
 
-      - name: commit and push
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add *.txt
-          git commit -m "latest commit"
-          git push
+      - name: Create and push daily commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Automated Daily Update: Log updated'
+          files: scheduled_run_log.txt
+
