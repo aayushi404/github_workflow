@@ -1,28 +1,33 @@
-name: Push
+name: Daily Commit Workflow
 
 on:
   schedule:
-    - cron: "22 18 * * *"
+    - cron: "12 18 * * *"   # Runs daily at 18:12 UTC (~11:42 PM IST)
   workflow_dispatch:
 
 jobs:
-  build:
+  daily_commit_job:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Add email 23f2005383@ds.study.iitm.ac.in
+      - name: Add daily commit by 23f2005383@ds.study.iitm.ac.in
         run: |
-          echo "23f2005383@ds.study.iitm.ac.in" >> emails.txt
+          echo "Automated commit on $(date)" >> daily-log.txt
 
       - name: Commit and push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          git fetch origin main
+          git rebase origin/main || true
           git add *.txt
-          git commit -m "latest commit $(date)" || echo "No changes to commit"
-          git push
+          git commit -m "chore: daily commit $(date)" || echo "No changes to commit"
+          git push origin HEAD:main
 
